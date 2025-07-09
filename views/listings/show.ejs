@@ -23,6 +23,11 @@
     </form>
     </div>
     <% } %>
+    <a href="/listings/<%= listing._id %>/booking" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Booking</a>
+    
+
+
+
     
     
     <div class="col-8 offset-3 mb-3">
@@ -68,8 +73,8 @@
                     <h5 class="card-title">@<%= review.author.username %></h5>
                     <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
                     <p class="card-text"><%= review.comment %></p>
-                
-                
+               
+               
                 <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
                     <button class="btn btn-sm btn-dark">Delete</button>
                 </form>

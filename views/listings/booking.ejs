@@ -1,0 +1,50 @@
+<% listings.forEach(function(listing) { %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title"><%= listing.title %></h5>
+      <p class="card-text"><%= listing.description %></p>
+
+      <!-- Booking Button -->
+      <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">
+        Booking
+      </a>
+
+      <!-- Booking Modal -->
+      <div class="modal fade" id="bookingModal-<%= listing._id %>" tabindex="-1" aria-labelledby="bookingModalLabel-<%= listing._id %>" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="bookingModalLabel-<%= listing._id %>"><%= listing.title %></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <form action="/bookings" method="POST">
+                <input type="hidden" name="listingId" value="<%= listing._id %>">
+
+                <div class="mb-3">
+                  <label for="startDate-<%= listing._id %>" class="form-label">Start Date</label>
+                  <input type="date" class="form-control" id="startDate-<%= listing._id %>" name="startDate" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="endDate-<%= listing._id %>" class="form-label">End Date</label>
+                  <input type="date" class="form-control" id="endDate-<%= listing._id %>" name="endDate" required>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Book</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+<% }) %>
