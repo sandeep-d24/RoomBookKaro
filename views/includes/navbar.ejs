@@ -1,49 +1,103 @@
 <style>
-  .search-btn{
-    background-color: green;
-    color: #fff;
-    border-radius: 25px;
-    padding: 0 1rem 0 1rem;
+  .navbar-custom {
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 0.7rem 1.5rem;
   }
-  .search-btn:hover{
-    background-color: green;
-    color: #fff;
+
+  .navbar-brand {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #1a73e8 !important;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
-  .search-btn i{
-    display: inline;
-    margin-right: 0.5rem;
+
+  .navbar-nav .nav-link {
+    font-weight: 500;
+    color: #333 !important;
+    margin-right: 1rem;
   }
-  .search-inp{
-    border-radius: 25px;
-    padding: 0.5rem 3rem 0.5rem 3rem;
+
+  .nav-link:hover {
+    color: #1a73e8 !important;
+  }
+
+  .search-form {
+    flex-grow: 1;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .search-inp {
+    border-radius: 50px;
+    padding: 0.6rem 1.5rem;
     font-size: 1rem;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .search-inp:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 0.2rem rgba(26, 115, 232, 0.25);
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #1a73e8;
+    border: none;
+    color: #fff;
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-btn:hover {
+    background-color: #0c5fcc;
+  }
+
+  .search-container {
+    position: relative;
   }
 </style>
 
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+<nav class="navbar navbar-expand-md navbar-custom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/listings"><i class="fa-solid fa-compass-drafting"></i></a>
+    <a class="navbar-brand" href="/listings">
+      <i class="fa-solid fa-compass-drafting"></i> RoomBookKaro
+    </a>
+    
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a> 
-      </div>
+      <!-- Centered Search -->
+      <form class="search-form d-flex" role="search">
+        <div class="search-container w-100">
+          <input class="form-control search-inp" type="search" placeholder="Search destinations">
+          <button class="search-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass fa-sm" style="color:white;"></i>
+          </button>
+        </div>
+      </form>
+
+      <!-- Right side links -->
       <div class="navbar-nav ms-auto">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2 search-inp" type="search" placeholder="Search destinations">
-          <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-sm" style="color:white"></i>Search</button>
-        </form>
-      </div>
-      <div class="navbar-nav ms-auto">
-        <a class="nav-link" href="/listings/new">Add your home</a>
-        <% if(!currUser) { %>
-        <a class="nav-link" href="/signup"><b>Sign up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
-        <% } %>
-        <% if(currUser) { %>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <a class="nav-link" href="/listings">Explore</a>
+        <!-- <a class="nav-link" href="/listings/new">Add Your Home</a> -->
+        <% if (!currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
         <% } %>
       </div>
     </div>

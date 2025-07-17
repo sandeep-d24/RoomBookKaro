@@ -5,7 +5,7 @@ if (process.env.NODE_ENV != "production"){
 const express= require("express");
 const app= express();
 const mongoose= require("mongoose");
-//const Listing= require("./models/listing.js");
+const Listing= require("./models/listing.js");
 const path= require("path");
 const methodOverride= require("method-override");
 const ejsMate= require("ejs-mate");
@@ -24,12 +24,7 @@ const listingRouter= require("./routes/listing.js");
 const reviewRouter= require("./routes/review.js");
 const userRouter= require("./routes/user.js");
 const adminRouter= require("./routes/admin.js");
-const bookingRoutes = require('./routes/booking');
-
-
-app.use(bookingRoutes);
-
-
+const bookingRouters= require("./routes/booking.js");
 const dbUrl= process.env.ATLASDB_URL;
 
 main()
@@ -58,6 +53,9 @@ const store= MongoStore.create({
     },
     touchAfter: 24 * 3600,
 });
+
+
+
 
 store.on("error", ()=>{
     console.log("ERROR in MONGO SESSION STORE", err);
@@ -99,6 +97,7 @@ app.use((req,res,next)=>{
     next();
 });
 
+
 // app.get("/demouser", async(req,res)=>{
 //     let fakeUser= new User({
 //         email: "student@gmail.com",
@@ -132,6 +131,8 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use("/", adminRouter);
+app.use("/bk", bookingRouters);
+
 
 //Index Route
 // app.get("/listings", wrapAsync(async(req,res)=>{
@@ -228,6 +229,13 @@ app.use((err, req, res, next)=>{
 // app.use((err, req, res, next)=>{
 //     res.send("something went wrong");
 // });
+
+app.get("/", async(req, res) => {
+        const allListings= await Listing.find({});
+  res.render("listings/home.ejs", { allListings });
+  
+
+});
 
 app.listen(8080,()=>{
     console.log("server is listening to port 8080");

@@ -29,6 +29,10 @@ router.route("/")
 router.get("/new", isLoggedIn, listingController.renderNewForm
 );
 
+//Booking Login Route
+//router.get("/show", isLoggedIn, listingController.renderNewForm
+// );
+
 router.route("/:id")
 .get(wrapAsync(listingController.showListing))
 .put(isLoggedIn,isOwner,upload.single('listing[image]'),wrapAsync(listingController.updateListing))
@@ -51,6 +55,8 @@ router.route("/:id")
 router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(listingController.renderEditForm)
 );
 
+
+router.post("/:id/booking",isLoggedIn,isOwner);
 //Update Route
 //router.put("/:id",isLoggedIn,isOwner,wrapAsync(listingController.updateListing)
 //);
@@ -58,5 +64,15 @@ router.get("/:id/edit",isLoggedIn,isOwner,wrapAsync(listingController.renderEdit
 //Delete Route
 //router.delete("/:id",isLoggedIn,isOwner, wrapAsync(listingController.destroyListing)
 //);
+
+// app.get('/listings/:id/booking', async (req, res) => {
+//   const { id } = req.params;
+//   const listing = await Listing.findById(id);
+//   if (!listing) {
+//     return res.status(404).send('Listing not found');
+//   }
+//   res.render('bookings/new', { listing });
+// });
+
 
 module.exports= router;

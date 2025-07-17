@@ -1,17 +1,43 @@
 <% layout("layouts/boilerplate") -%>
-<div class="row mt-2">
-    <h1 class="col-6 offset-3">Login on RoomBookKaro</h1>
-    <div class="col-6 offset-3">
-        <form action="/login" method="POST" class="needs-validation" novalidate>
-            <div class="mb-2">
-            <lable for="username" class="form-label">Username</lable>
-            <input name="username" id="username" type="text" class="form-control" required>
-            </div>
-            <div class="mb-2">
-            <lable for="password" class="form-label">Password</lable>
-            <input name="password" id="password" type="password" class="form-control" required>
-            </div>
-            <button class="btn btn-success">Login</button>
-        </form>
+
+<section class="d-flex justify-content-center align-items-center vh-100 bg-light mt-6">
+  <div class="card shadow-lg border-0 p-4" style="max-width: 450px; width: 100%;">
+    <div class="text-center mb-4">
+      <h2 class="fw-bold">Login to RoomBookKaro</h2>
+      <p class="text-muted small">Welcome back! Please enter your credentials</p>
     </div>
-</div>
+    <form action="/login" method="POST" class="needs-validation" novalidate>
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input name="username" id="username" type="text" class="form-control" required placeholder="Enter username">
+        <div class="invalid-feedback">Username is required</div>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input name="password" id="password" type="password" class="form-control" required placeholder="Enter password">
+        <div class="invalid-feedback">Password is required</div>
+      </div>
+      <button class="btn btn-success w-100">Login</button>
+      <div class="text-center mt-3">
+        <small>Don't have an account? <a href="/register">Register here</a></small>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  // Bootstrap validation
+  (() => {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', e => {
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

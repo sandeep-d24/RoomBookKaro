@@ -30,4 +30,14 @@ router.route("/login")
 router.get("/logout", userController.logout
 );
 
+router.get("/list", async (req, res) => {
+  try {
+    const users = await User.find({});
+    console.log(users,"users")
+    res.render('admin/users', { users });  // Rendering 'users.ejs'
+  } catch (err) {
+    res.status(500).send('Error fetching users');
+  }
+});
+
 module.exports= router;

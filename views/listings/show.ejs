@@ -23,8 +23,17 @@
     </form>
     </div>
     <% } %>
-    <a href="/listings/<%= listing._id %>/booking" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Booking</a>
-    
+    <!-- <a href="/listings/<%= listing._id %>/booking" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Booking</a> -->
+    <!-- <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a> -->
+
+    <% if (currUser) { %>
+    <!-- Show modal trigger if user is logged in -->
+    <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a>
+    <% } else { %>
+    <!-- Redirect to login if not logged in -->
+    <a href="/login" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Login to Book</a>
+    <% } %>
+
 
 
 
@@ -86,3 +95,50 @@
     </div>
     
 
+          <!-- Booking Button
+      <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">
+        Booking
+      </a> -->
+
+
+
+
+
+
+
+        <div class="modal fade" id="bookingModal-<%= listing._id %>" tabindex="-1" aria-labelledby="bookingModalLabel-<%= listing._id %>" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="bookingModalLabel-<%= listing._id %>"><%= listing.title %></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+              <form action="/bk/bookings" method="POST">
+                <input type="hidden" name="listingId" value="<%= listing._id %>">
+                <!-- <input type="hidden" name="listingId" value="<%= listing._id %>">  -->
+
+
+                <div class="mb-3">
+                  <label for="startDate-<%= listing._id %>" class="form-label">Start Date</label>
+                  <input type="date" class="form-control" id="startDate-<%= listing._id %>" name="startDate" required>
+                </div>
+
+                <div class="mb-3">
+                  <label for="endDate-<%= listing._id %>" class="form-label">End Date</label>
+                  <input type="date" class="form-control" id="endDate-<%= listing._id %>" name="endDate" required>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Book</button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>

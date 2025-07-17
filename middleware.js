@@ -1,10 +1,13 @@
 const Listing= require("./models/listing");
 const Review= require("./models/review");
+//const Booking=require("./model/booking");
+
+
 
 module.exports.isLoggedIn= (req,res,next)=>{
     if(!req.isAuthenticated()){
         req.session.redirectUrl= req.originalUrl;
-        req.flash("error","You must be logged in to create listing!");
+        req.flash("error","You must be logged in!");
         return res.redirect("/login");
     }
     next();
@@ -36,4 +39,16 @@ module.exports.isReviewAuthor=async(req,res,next)=>{
     }
     next();
 }
+
+// module.exports.isBookingLoggedIn = (req, res, next) => {
+//   if (!req.isAuthenticated()) {
+//     req.flash('error', 'You must be logged in to book.');
+//     return res.redirect('/login');
+//   }
+//   next();
+// };
+
+
+
+
 

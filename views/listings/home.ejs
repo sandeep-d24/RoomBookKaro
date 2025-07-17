@@ -1,0 +1,294 @@
+<% layout("layouts/boilerplate") -%>
+
+<style>
+    .listing-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+.card-img-top {
+  transition: filter 0.3s ease;
+}
+.card-img-top:hover {
+  filter: brightness(0.95);
+}
+
+.gallery-img-container {
+    height: 250px;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-img-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  }
+
+  .object-fit-cover {
+    object-fit: cover;
+  }
+
+</style>
+<!-- Hero Slider -->
+<div id="heroCarousel" class="carousel slide carousel-fade mb-5" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://cdn0.agoda.net/images/blt2/dealshub/mainbanner.png" class="d-block w-100" style="height: 30vh; object-fit: cover;" alt="Slide 1">
+      <div class="carousel-caption d-none d-md-block">
+        <h1 class="fw-bold">Book Verified Hostels Across India</h1>
+        <p>Comfortable, Safe, Affordable</p>
+        <a href="#listings" class="btn btn-warning btn-lg mt-2">Browse Listings</a>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <img src="https://cdn6.agoda.net/images/WebCampaign/20250625_th_amazingth/BLT_DT.png" class="d-block w-100" style="height: 30vh; object-fit: cover;" alt="Slide 2">
+      <div class="carousel-caption d-none d-md-block">
+        <h1 class="fw-bold">Exclusive Student Deals</h1>
+        <p>Get the best rooms near colleges & workplaces</p>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
+
+<!-- Search Bar -->
+<div class="container mb-5">
+  <form action="/search" method="GET" class="row g-3">
+    <div class="col-md-5">
+      <input type="text" name="location" class="form-control form-control-lg" placeholder="Search by city, college or area" required>
+    </div>
+    <div class="col-md-5">
+      <input type="date" name="date" class="form-control form-control-lg">
+    </div>
+    <div class="col-md-2 d-grid">
+      <button class="btn btn-primary btn-lg" type="submit">Search</button>
+    </div>
+  </form>
+</div>
+
+<!-- Promo -->
+<div class="container mb-4">
+  <div class="alert alert-info text-center fs-5">
+    🔥 Limited Offer: Use <strong>ROOM20</strong> for 20% OFF on all bookings!
+  </div>
+</div>
+
+<!-- Listings Section -->
+<!-- Listings Section -->
+<div id="listings" class="container mb-5">
+  <h3 class="text-center fw-bold mb-5">🏠 Featured Listings</h3>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% for(let listing of allListings){ %>
+      <div class="col">
+        <a href="/listings/<%= listing._id %>" class="text-decoration-none text-dark">
+          <div class="card h-100 shadow-lg border-0 rounded-4 overflow-hidden listing-card">
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image"
+              style="height: 220px; object-fit: cover; border-bottom: 1px solid #f0f0f0;">
+            <div class="card-body">
+              <h5 class="card-title fw-semibold text-truncate mb-1">
+                <%= listing.title %>
+              </h5>
+              <p class="card-text mb-0 text-muted small">
+                ₹ <%= listing.price.toLocaleString("en-IN") %> / night
+                <span class="text-muted">+18% GST</span>
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+
+
+
+
+<div class="container mb-5">
+  <h3 class="text-center fw-bold mb-5">🎥 Featured Hostel Vlogs</h3>
+  <div class="row g-5">
+
+    <!-- Vlog 1 -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 text-center h-100 p-4">
+        <div class="d-flex justify-content-center">
+          <div class="rounded-circle border border-3 border-danger-subtle shadow-sm p-1" style="width: 110px; height: 110px; overflow: hidden;">
+            <img src="https://pix6.agoda.net/geo/city/1622/1_1622_02.jpg" alt="Hostel Room Vlog" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title mt-3 fw-semibold">Inside a Student Hostel Room Tour</h5>
+          <p class="card-text text-muted small">Get a glimpse of how students really live – bunk beds, shared kitchens & more!</p>
+          <a href="#" class="btn btn-danger btn-sm rounded-pill mt-2 px-4">▶ Watch Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vlog 2 -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 text-center h-100 p-4">
+        <div class="d-flex justify-content-center">
+          <div class="rounded-circle border border-3 border-danger-subtle shadow-sm p-1" style="width: 110px; height: 110px; overflow: hidden;">
+            <img src="https://pix6.agoda.net/geo/city/16850/1_16850_02.jpg" alt="Delhi Hostel Life" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title mt-3 fw-semibold">Day in the Life at a Delhi Hostel</h5>
+          <p class="card-text text-muted small">From breakfast to lights out, follow a typical day in a student hostel.</p>
+          <a href="#" class="btn btn-danger btn-sm rounded-pill mt-2 px-4">▶ Watch Now</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vlog 3 -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg rounded-4 text-center h-100 p-4">
+        <div class="d-flex justify-content-center">
+          <div class="rounded-circle border border-3 border-danger-subtle shadow-sm p-1" style="width: 110px; height: 110px; overflow: hidden;">
+            <img src="https://pix6.agoda.net/geo/city/16087/1_16087_02.jpg" alt="Top Hostel Campuses" class="img-fluid rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title mt-3 fw-semibold">Best Hostel Campuses in India</h5>
+          <p class="card-text text-muted small">We visit top-rated campuses and vlog what makes them stand out for students.</p>
+          <a href="#" class="btn btn-danger btn-sm rounded-pill mt-2 px-4">▶ Watch Now</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- Gallery Section -->
+<div class="container mb-5">
+  <h3 class="text-center fw-bold mb-4">📸 Our Gallery</h3>
+  <div class="row g-4">
+    <% const gallery = [
+      "https://pix6.agoda.net/geo/city/17193/1_17193_02.jpg",
+      "https://pix6.agoda.net/geo/city/11304/077a5dc2a344a604731be86537916ba0.jpg",
+      "https://pix8.agoda.net/hotelImages/744/7447296/7447296_19052316240074682143.jpg",
+      "https://pix6.agoda.net/geo/city/10757/1_10757_02.jpg",
+      "https://pix6.agoda.net/geo/city/2994/0c2aae36625e3e958684d0d4ae5b12d0.jpg",
+      "https://pix6.agoda.net/geo/city/12772/04d2ac37633dbf787ccdf3500be25339.jpg"
+    ]; %>
+    <% gallery.forEach(image => { %>
+      <div class="col-md-4">
+        <div class="rounded shadow-sm overflow-hidden gallery-img-container">
+          <img src="<%= image %>" alt="gallery image" class="w-100 h-100 img-fluid object-fit-cover">
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Blogs Section -->
+<div class="container mb-5">
+  <h3 class="text-center fw-bold mb-4">🏡 Hostel Living Tips</h3>
+  <div class="row g-4">
+
+    <!-- Tip 1 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+        <div class="mb-3">
+          <div class="bg-success bg-opacity-10 text-success d-inline-flex justify-content-center align-items-center rounded-circle" style="width: 70px; height: 70px;">
+            <i class="fas fa-map-marker-alt fa-lg"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">How to Choose the Right Hostel</h5>
+          <p class="card-text text-muted">Location, amenities, safety – here's what to consider before booking your stay.</p>
+          <a href="#" class="btn btn-outline-success btn-sm rounded-pill">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tip 2 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+        <div class="mb-3">
+          <div class="bg-success bg-opacity-10 text-success d-inline-flex justify-content-center align-items-center rounded-circle" style="width: 70px; height: 70px;">
+            <i class="fas fa-coins fa-lg"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">Budget-Friendly Hostel Hacks</h5>
+          <p class="card-text text-muted">Maximize comfort while saving money with these tips and tricks.</p>
+          <a href="#" class="btn btn-outline-success btn-sm rounded-pill">Read More</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tip 3 -->
+    <div class="col-md-4">
+      <div class="card h-100 border-0 shadow-sm rounded-4 text-center p-3">
+        <div class="mb-3">
+          <div class="bg-success bg-opacity-10 text-success d-inline-flex justify-content-center align-items-center rounded-circle" style="width: 70px; height: 70px;">
+            <i class="fas fa-school fa-lg"></i>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title fw-semibold">Top 10 Hostels for Students in India</h5>
+          <p class="card-text text-muted">We’ve ranked the best hostels based on student feedback, cleanliness, and safety.</p>
+          <a href="#" class="btn btn-outline-success btn-sm rounded-pill">Read More</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-5 mt-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h5>RoomBookKaro</h5>
+        <p>Your trusted platform for hostel and PG bookings across India.</p>
+      </div>
+      <div class="col-md-2">
+        <h6>Explore</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">About</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Blog</a></li>
+          <li><a href="#" class="text-white text-decoration-none">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2">
+        <h6>Support</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white text-decoration-none">Contact Us</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+          <li><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <p class="mb-1">&copy; <%= new Date().getFullYear() %> RoomBookKaro</p>
+        <small>Crafted with ❤️ for travelers</small>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("switchCheckDefault")?.addEventListener("click", () => {
+    const taxInfo = document.querySelectorAll(".tax-info");
+    taxInfo.forEach(el => {
+      el.style.display = el.style.display === "inline" ? "none" : "inline";
+    });
+  });
+</script>
