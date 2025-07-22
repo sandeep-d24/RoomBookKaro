@@ -15,26 +15,52 @@
         </div>
     </div>
 
-    <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
-    <div class="btns">
+    <!-- <% if(currUser && listing.owner._id.equals(currUser._id)) { %> -->
+    <!-- <div class="btns">
     <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
         <button class="btn btn-dark offset-5">Delete</button>
     </form>
-    </div>
-    <% } %>
+    </div> -->
+    <!-- <% } %> -->
+
+    <% if (currUser && currUser.isAdmin) { %>
+  <div class="btns">
+    <a href="/listings/<%= listing._id %>/edit"
+       class="btn btn-dark col-1 offset-3 edit-btn">
+       Edit
+    </a>
+
+    <form method="POST"
+          action="/listings/<%= listing._id %>?_method=DELETE"
+          class="d-inline">
+      <button class="btn btn-dark offset-5">
+        Delete
+      </button>
+    </form>
+  </div>
+<% } %>
+
+
     <!-- <a href="/listings/<%= listing._id %>/booking" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Booking</a> -->
     <!-- <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a> -->
 
     <!-- Optional: leave hidden -->
     <!-- <button type="button" id="autoOpenBooking" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>" hidden></button> -->
 
+    <!-- <%  if (currUser) { %> -->
+    <!--Show modal trigger if user is logged in -->
+    <!-- <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a>-->
+    <!-- <% } else { %> -->
+    <!-- Redirect to login if not logged in -->
+    <!-- <a href="/login" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Login to Book</a>
+    <% } %>  -->
+
+
     <% if (currUser) { %>
-    <!-- Show modal trigger if user is logged in -->
     <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a>
     <% } else { %>
-    <!-- Redirect to login if not logged in -->
-    <a href="/login" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Login to Book</a>
+    <a href="/login?fromBooking=true&listingId=<%= listing._id %>" class="btn btn-dark col-1 offset-3 booking-btn mt-3">Login to Book</a>
     <% } %>
 
 
@@ -156,3 +182,7 @@
     }
   });
 </script> -->
+
+
+
+

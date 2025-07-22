@@ -103,7 +103,7 @@
               <a href="/listings/<%= listing._id %>" class="btn btn-sm btn-primary me-1 mb-1">
                 <i class="fa-solid fa-eye"></i>
               </a>
-              <a href="/listings/<%= listing._id %>/edit" class="btn btn-sm btn-warning me-1 mb-1">
+              <a href="/editlist/<%= listing._id %>/admin_edit" class="btn btn-sm btn-warning me-1 mb-1">
                 <i class="fa-solid fa-pen"></i>
               </a>
               <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">

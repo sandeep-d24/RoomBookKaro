@@ -5,6 +5,12 @@ const passport= require("passport");
 
 const Listing = require('../models/listing');
 
+
+
+const app= express();
+const { isLoggedIn } = require('../middleware');
+
+
 require("dotenv").config();
 
 router.get("/admin", (req,res)=>{
@@ -54,6 +60,21 @@ router.post("/admin", (req, res) => {
     return res.status(401).send("Unauthorized: Invalid admin credentials");
   }
 });
+
+
+
+router.get('/editlist/:id/admin_edit', async (req, res) => {
+ 
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+
+   console.log("kakak",listing,"req.params;",req.params.id)
+  if (!listing) {
+    return res.status(404).send('Listing not found');
+  }
+  res.render('admin/admin_edit', { listing }); // Adjust view name if different
+});
+
 
 module.exports= router;
 

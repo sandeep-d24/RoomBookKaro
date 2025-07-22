@@ -134,6 +134,9 @@ app.use("/", adminRouter);
 app.use("/bk", bookingRouters);
 
 
+
+
+
 //Index Route
 // app.get("/listings", wrapAsync(async(req,res)=>{
 //     const allListings= await Listing.find({});

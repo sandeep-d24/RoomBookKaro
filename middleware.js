@@ -3,7 +3,6 @@ const Review= require("./models/review");
 //const Booking=require("./model/booking");
 
 
-
 module.exports.isLoggedIn= (req,res,next)=>{
     if(!req.isAuthenticated()){
         req.session.redirectUrl= req.originalUrl;
@@ -47,6 +46,15 @@ module.exports.isReviewAuthor=async(req,res,next)=>{
 //   }
 //   next();
 // };
+
+module.exports.isAdmin = (req, res, next) => {
+  if (req.isAuthenticated() && req.user.isAdmin) return next();
+  req.flash('success', 'Changes Made Admin access only');
+  return res.redirect('/listings');
+};
+
+
+
 
 
 
