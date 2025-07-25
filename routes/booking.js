@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const Booking = require('../models/booking'); // Create this model
-const Listing = require('../models/listing'); // Assuming you already have this
-
-
+const Booking = require('../models/booking');
+const Listing = require('../models/listing');
 
 router.post('/bookings', async (req, res) => {
   const { listingId, startDate, endDate } = req.body;
-
-  
 
   try {
     const listing = await Listing.findById(listingId);
@@ -16,28 +12,33 @@ router.post('/bookings', async (req, res) => {
       return res.status(404).send('Listing not found');
     }
 
+    const user = req.user;
+
     const booking = new Booking({
-      listing: listingId,
+      listing: listing._id,
+      userId: user?._id || null,
+
+      name: user?.name || 'Guest',
+      Phone: user?.phone || 'Unknown',
+      email: user?.email || 'Unknown',
+
+      bookingID: `BK-${Date.now()}`,
+      hotelName: listing.title || 'Hotel',
+
+      bookingStartDate: startDate,
+      bookingEndDate: endDate,
+
       startDate,
-      endDate,
+      endDate
     });
 
     await booking.save();
-    // alert("success")
     req.flash("success", "Booking Successful");
     res.redirect('/listings');
   } catch (err) {
-    console.error(err);
+    console.error("Booking error:", err);
     res.status(500).send('Server error');
   }
 });
-
-// const passport= require("passport");
-// const {saveRedirectUrl}= require("../middleware.js");
-// const userController= require("../controllers/users.js");
-
-// router.route("/login")
-// .get(userController.renderLoginForm)
-// .post(saveRedirectUrl, passport.authenticate("local", {failureRedirect: '/login', failureFlash: true}), userController.login);
 
 module.exports = router;

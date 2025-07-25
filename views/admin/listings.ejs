@@ -67,7 +67,7 @@
   <a href="#"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
   <a href="/admin/listings"><i class="fas fa-home me-2"></i> Listings</a>
   <a href="/list"><i class="fas fa-users me-2"></i> Users</a>
-  <a href="/list"><i class="fas fa-book me-2"></i> Bookings</a>
+  <a href="/admin/booking"><i class="fas fa-book me-2"></i> Bookings</a>
   <a href="/admin"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
 </nav>
 
@@ -100,13 +100,13 @@
             <td><%= listing.title %></td>
             <td><%= listing.price %></td>
             <td>
-              <a href="/listings/<%= listing._id %>" class="btn btn-sm btn-primary me-1 mb-1">
+              <a href="/showlist/<%= listing._id %>/admin_show" class="btn btn-sm btn-primary me-1 mb-1">
                 <i class="fa-solid fa-eye"></i>
               </a>
               <a href="/editlist/<%= listing._id %>/admin_edit" class="btn btn-sm btn-warning me-1 mb-1">
                 <i class="fa-solid fa-pen"></i>
               </a>
-              <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
+              <form action="/admin/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
                 <button class="btn btn-sm btn-danger mb-1" onclick="return confirm('Are you sure?')">
                   <i class="fa-solid fa-trash"></i>
                 </button>

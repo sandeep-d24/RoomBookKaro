@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RoomBookKaro Admin - Listings</title>
+  <title>RoomBookKaro Admin - Bookings</title>
 
   <!-- Bootstrap & FontAwesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
-
-  <!-- DataTables CSS -->
   <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
   <style>
@@ -67,52 +65,92 @@
   <a href="#"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
   <a href="/admin/listings"><i class="fas fa-home me-2"></i> Listings</a>
   <a href="/list"><i class="fas fa-users me-2"></i> Users</a>
-  <a href="/list"><i class="fas fa-book me-2"></i> Bookings</a>
+  <a href="/admin/booking"><i class="fas fa-book me-2"></i> Bookings</a>
   <a href="/admin"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
 </nav>
 
 <!-- Main Content -->
 <div class="main-content">
   <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-    <h2 class="mb-0">All Listings</h2>
-    <a href="/admin/list/add" class="btn btn-success">
-      <i class="fas fa-plus me-1"></i> Add New
-    </a>
+    <h2 class="mb-0">All Bookings</h2>
   </div>
 
   <div class="table-responsive">
-    <table id="listingsTable" class="table table-bordered table-hover table-striped align-middle">
+    <table class="table table-bordered table-hover table-striped align-middle">
       <thead class="table-dark">
         <tr>
-          <th>#</th>
-          <th>Image</th>
-          <th>Title</th>
-          <th>Price (₹)</th>
-          <th>Actions</th>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Booking ID</th>
+          <th>Hotel Name</th>
+          <th>Booking Start</th>
+          <th>Booking End</th>
+          <th>Booking Status</th>
+          <th>Status Action</th>
+          <th>Comment</th>
+          <th>Status Change Time</th>
+          <th>Check-in Status</th>
+          <th>Check-in Action</th>
+          <th>Check-out Action</th>
+          <th>Check-in Comment</th>
+          <th>Check-in Time</th>
+          <th>Check-out Time</th>
+          <th>Check-out Comment</th>
         </tr>
       </thead>
       <tbody>
-        <% listings.forEach((listing, index) => { %>
+        <% if (bookings.length === 0) { %>
           <tr>
-            <td><%= index + 1 %></td>
-            <td><img src="<%= listing.image.url %>" alt="Image" class="table-img"></td>
-            <td><%= listing.title %></td>
-            <td><%= listing.price %></td>
-            <td>
-              <a href="/listings/<%= listing._id %>" class="btn btn-sm btn-primary me-1 mb-1">
-                <i class="fa-solid fa-eye"></i>
-              </a>
-              <a href="/listings/<%= listing._id %>/edit" class="btn btn-sm btn-warning me-1 mb-1">
-                <i class="fa-solid fa-pen"></i>
-              </a>
-              <form action="/listings/<%= listing._id %>?_method=DELETE" method="POST" class="d-inline">
-                <button class="btn btn-sm btn-danger mb-1" onclick="return confirm('Are you sure?')">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </form>
-            </td>
+            <td colspan="18" class="text-center">No bookings found.</td>
           </tr>
-        <% }) %>
+        <% } else { %>
+          <% bookings.forEach(booking => { %>
+            <tr>
+              <td><%= booking?.name || '-' %></td>
+              <td><%= booking?.Phone || '-' %></td>
+              <td><%= booking?.email || '-' %></td>
+              <td><%= booking?.bookingID || '-' %></td>
+              <td><%= booking?.hotelName || '-' %></td>
+              <td><%= booking?.bookingStartDate ? booking.bookingStartDate.toISOString().slice(0,10) : '-' %></td>
+              <td><%= booking?.bookingEndDate ? booking.bookingEndDate.toISOString().slice(0,10) : '-' %></td>
+              <td><%= booking?.bookingStatus || '-' %></td>
+
+              <td>
+                <% if (booking.bookingStatus === "New") { %>
+                  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#bookingStatusModal">Approve / Reject</button>
+                <% } else { %>
+                  <button class="btn btn-sm btn-secondary" disabled><%= booking.bookingStatus %></button>
+                <% } %>
+              </td>
+
+              <td><%= booking?.comment || '-' %></td>
+              <td><%= booking?.statusChangeTime ? booking.statusChangeTime.toLocaleString() : '-' %></td>
+              <td><%= booking?.checkinStatus || 'Pending' %></td>
+
+              <td>
+                <% if (booking.checkinStatus === "Pending") { %>
+                  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#checkinStatusModal">Check-in / Decline</button>
+                <% } else { %>
+                  <button class="btn btn-sm btn-secondary" disabled><%= booking.checkinStatus %></button>
+                <% } %>
+              </td>
+
+              <td>
+                <% if (booking.checkinStatus === "CheckedIn") { %>
+                  <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#checkoutStatusModal">Update Check-out</button>
+                <% } else { %>
+                  <button class="btn btn-sm btn-secondary" disabled>Checked Out</button>
+                <% } %>
+              </td>
+
+              <td><%= booking?.checkinComment || '-' %></td>
+              <td><%= booking?.checkinTime ? booking.checkinTime.toLocaleString() : '-' %></td>
+              <td><%= booking?.checkoutTime ? booking.checkoutTime.toLocaleString() : '-' %></td>
+              <td><%= booking?.checkoutComment || '-' %></td>
+            </tr>
+          <% }) %>
+        <% } %>
       </tbody>
     </table>
   </div>
@@ -126,12 +164,12 @@
 
 <script>
   $(document).ready(function () {
-    $('#listingsTable').DataTable({
+    $('.table').DataTable({
       responsive: true,
       pageLength: 5,
       lengthMenu: [5, 10, 25, 50],
       language: {
-        search: "Search listings:"
+        search: "Search bookings:"
       }
     });
   });

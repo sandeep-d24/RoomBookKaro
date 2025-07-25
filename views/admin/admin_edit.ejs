@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RoomBookKaro Admin Pane</title>
+  <title>RoomBookKaro Admin Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
   <style>
@@ -47,43 +46,12 @@
       padding: 2rem;
     }
 
-    .dashboard-card {
-      border-radius: 15px;
-      background: white;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      padding: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .dashboard-card i {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      color: #198754;
-    }
-
     .table-container {
       background: white;
       border-radius: 12px;
       padding: 1.5rem;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       margin-top: 2rem;
-    }
-
-    .table thead {
-      background: #e9ecef;
-    }
-
-    .table th, .table td {
-      vertical-align: middle;
-    }
-
-    .text-muted.small {
-      font-size: 0.85rem;
     }
 
     @media (max-width: 768px) {
@@ -103,51 +71,56 @@
     <a href="#"><i class="fas fa-chart-line me-2"></i> Dashboard</a>
     <a href="/admin/listings"><i class="fas fa-home me-2"></i> Listings</a>
     <a href="/list"><i class="fas fa-users me-2"></i> Users</a>
-    <a href="/list"><i class="fas fa-book me-2"></i> Bookings</a>
+    <a href="/admin/booking"><i class="fas fa-book me-2"></i> Bookings</a>
     <a href="/admin"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
   </div>
-    <div class="row mt-3">
+
+  <div class="row mt-3">
     <div class="col-8 offset-2">
-    <h3>Edit your Listing</h3>
-    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data" >
-        <div class="mb-2">
-        <lable for="title" class="form-label">Title</lable>
-        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
-        <div class="valid-feedback">Title looks Good!</div>
-        </div>
-        <div class="mb-2">
-        <lable for="description" class="form-label">Description</lable>
-        <textarea name="listing[description]" type="text" class="form-control" required><%= listing.description %></textarea>
-        <div class="invalid-feedback">Please enter a short description</div>
-        </div>
-        <div class="mb-2">
-            Original Listing Image <br>
-            <img src="<%= listing.image.url %>">
-        </div>
-        <div class="mb-2">
-        <lable for="image" class="form-label">Upload New Image</lable>
-        <input name="listing[image]" type="file" class="form-control">
-        </div>
-        <div class="row">
-        <div class="mb-2 col-md-4">
-        <lable for="price" class="form-label">Price</lable>
-        <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
-        <div class="invalid-feedback">Price should be valid</div>
-        </div>
-        <div class="mb-2 col-md-8">
-        <lable for="country" class="form-label">Country</lable>
-        <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required>
-        <div class="invalid-feedback">Country name should be valid</div>
-        </div>
-        </div>
-        <div class="mb-2">
-        <lable for="location" class="form-label">Location</lable>
-        <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required>
-        <div class="invalid-feedback">Location should be valid</div>
-        </div>
+      <h3>Edit your Listing</h3>
+      <form method="POST" action="/admin/listings/<%= listing._id %>?_method=PUT" class="needs-validation" enctype="multipart/form-data" novalidate>
         
-        <button class="btn btn-dark edit-btn mt-3">Edit</button>
-    </form>
+        <div class="mb-2">
+          <label for="title" class="form-label">Title</label>
+          <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
+        </div>
+
+        <div class="mb-2">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="listing[description]" class="form-control" required><%= listing.description %></textarea>
+        </div>
+
+        <div class="mb-2">
+          Original Listing Image <br>
+          <img src="<%= listing.image.url %>" class="img-fluid" style="max-height: 200px;">
+        </div>
+
+        <div class="mb-2">
+          <label for="image" class="form-label">Upload New Image</label>
+          <input name="listing[image]" type="file" class="form-control">
+        </div>
+
+        <div class="row">
+          <div class="mb-2 col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input name="listing[price]" value="<%= listing.price %>" type="number" class="form-control" required>
+          </div>
+          <div class="mb-2 col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <label for="location" class="form-label">Location</label>
+          <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required>
+        </div>
+
+        <button class="btn btn-dark mt-3" type="submit">Update Listing</button>
+      </form>
     </div>
-    </div>
-<script src="/js/script.js"></script>
+  </div>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>
