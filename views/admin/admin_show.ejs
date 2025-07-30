@@ -116,13 +116,13 @@
     </div>
   <% } %>
 
-  <% if (currUser && !currUser.isAdmin) { %>
+  <!-- <% if (currUser && !currUser.isAdmin) { %>
     <a href="#" class="btn btn-dark col-1 offset-3 booking-btn mt-3" data-bs-toggle="modal" data-bs-target="#bookingModal-<%= listing._id %>">Booking</a>
-  <% } %>
+  <% } %> -->
 
   <div class="col-8 offset-3 mb-3">
     <hr>
-    <% if(currUser && !currUser.isAdmin) { %>
+    <!-- <% if(currUser && !currUser.isAdmin) { %>
       <h4>Leave a Review</h4>
       <form action="/listings/<%= listing.id %>/reviews" method="POST" novalidate class="needs-validation">
         <div class="mb-3 mt-4">
@@ -149,7 +149,7 @@
         <button class="btn btn-outline-dark">Submit</button>
       </form>
       <hr>
-    <% } %>
+    <% } %> -->
     
     <p><b>All Reviews</b></p>
     <div class="row">

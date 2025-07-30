@@ -17,12 +17,65 @@ const upload = multer({ storage });
 
 require("dotenv").config();
 
-// Admin login page
-router.get("/admin", (req, res) => {
-  res.render("admin/login.ejs");
+router.get("/admin", (req,res)=>{
+    res.render("admin/login.ejs");
 });
 
-// Admin login handler
+router.get("/admin/list/add", (req,res)=>{
+    res.render("admin/addlist.ejs");
+});
+router.get("/admin/booking",async (req,res)=>{
+    try {
+const bookings = await Booking.aggregate([
+{
+  $lookup: {
+    from: "users",
+    localField: "userId",
+    foreignField: "_id",
+    as: "user"
+  }
+},
+{
+  $unwind: "$user"
+},
+{
+  $lookup: {
+    from: "listings",   // use lowercase collection name
+    localField: "listing",
+    foreignField: "_id",
+    as: "listing"
+  }
+},
+{
+  $unwind: "$listing"
+}
+]);
+
+  // console.log(bookings, "=====")
+  res.render('admin/booking', { bookings });
+} catch (err) {
+  console.error(err);
+  res.status(500).send("Error fetching listings");
+}
+});
+
+
+// Show all listings in admin dashboard
+router.get('/admin/listings', async (req, res) => {
+  try {
+    const listings = await Listing.find({});
+    res.render('admin/listings', { listings });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching listings");
+  }
+});
+
+// router.post("/admin", passport.authenticate("local", {failureRedirect: '/admin', failureFlash: true,}), async(req,res)=> {
+//     req.flash("Welcome to Admin Dashboard!");
+//     res.render("admin/dashboard.ejs");
+// });
+
 router.post("/admin", (req, res) => {
   const { username, password } = req.body;
 
@@ -129,7 +182,6 @@ router.delete("/admin/listings/:id", isAdminLoggedIn, async (req, res) => {
 // Admin show listing details
 router.get("/showlist/:id/admin_show", isAdminLoggedIn, async (req, res) => {
   const { id } = req.params;
-
   try {
     const listing = await Listing.findById(id)
       .populate({
@@ -153,15 +205,15 @@ router.get("/showlist/:id/admin_show", isAdminLoggedIn, async (req, res) => {
 });
 
 // Admin booking view
-router.get("/admin/booking", isAdminLoggedIn, async (req, res) => {
+router.post("/admin/bookings/:id", isAdminLoggedIn, async (req, res) => {
   try {
-    const bookings = await Booking.find({}).populate("userId").populate("listing");
+    console.log("id", req.params.id)
 
-    // const bookings = await Booking.find({})
-    //   .populate("userId")
-    //   .populate("listing");
+const bId = req.params.id
+     const updateBooking= await Booking.findOneAndUpdate({_id:bId},req.body)
+     console.log(updateBooking, "true")
 
-    res.render("admin/booking", { bookings });
+    res.redirect("/admin/booking");
   } catch (err) {
     console.error("Booking fetch error:", err);
     res.status(500).send("Error fetching bookings");

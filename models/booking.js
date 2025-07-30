@@ -13,9 +13,10 @@ const bookingSchema = new Schema({
     required: true
   },
   name: String,
-  phone: String,
+  phone: {type: String},
   email: String,
   bookingID: String,
+  hotelName: String,
   startDate: {
     type: Date,
     required: true
@@ -29,8 +30,8 @@ const bookingSchema = new Schema({
     enum: ['New', 'Confirmed', 'Rejected'],
     default: 'New'
   },
-  comment: String,
-  statusChangeTime: Date,
+  comment: {type:String},
+  statusChangeTime:{type:Date},
   checkinStatus: {
     type: String,
     enum: ['Pending', 'CheckedIn', 'NoShow'],
@@ -42,4 +43,4 @@ const bookingSchema = new Schema({
   checkoutComment: String
 });
 
-module.exports = mongoose.model('Booking', bookingSchema);
+module.exports = mongoose.models.Booking || mongoose.model('Booking', bookingSchema);

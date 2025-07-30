@@ -100,29 +100,84 @@
         </tr>
       </thead>
       <tbody>
-        <% if (bookings.length === 0) { %>
+        <% if (bookings.length == 0) { %>
           <tr>
             <td colspan="18" class="text-center">No bookings found.</td>
           </tr>
         <% } else { %>
           <% bookings.forEach(booking => { %>
             <tr>
-              <td><%= booking?.name || '-' %></td>
-              <td><%= booking?.Phone || '-' %></td>
-              <td><%= booking?.email || '-' %></td>
-              <td><%= booking?.bookingID || '-' %></td>
-              <td><%= booking?.hotelName || '-' %></td>
-              <td><%= booking?.bookingStartDate ? booking.bookingStartDate.toISOString().slice(0,10) : '-' %></td>
-              <td><%= booking?.bookingEndDate ? booking.bookingEndDate.toISOString().slice(0,10) : '-' %></td>
+              <td><%= booking?.user?.username || '-' %></td>
+              <td><%= booking?.user?.phone || '-' %></td>
+              <td><%= booking?.user?.email || '-' %></td>
+              <td><%= booking?._id || '-' %></td>
+              <td><%= booking?.listing?.title || '-' %></td>
+              <td><%= booking?.startDate ? booking.startDate.toISOString().slice(0,10) : '-' %></td>
+              <td><%= booking?.endDate ? booking.endDate.toISOString().slice(0,10) : '-' %></td>
               <td><%= booking?.bookingStatus || '-' %></td>
 
-              <td>
+              <!-- <td>
                 <% if (booking.bookingStatus === "New") { %>
                   <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#bookingStatusModal">Approve / Reject</button>
                 <% } else { %>
                   <button class="btn btn-sm btn-secondary" disabled><%= booking.bookingStatus %></button>
                 <% } %>
+              </td> -->
+
+              <td>
+                <% if (booking.bookingStatus === "New") { %>
+                  <button
+                    class="btn btn-sm btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#bookingStatusModal"
+                    onclick="setBookingStatusForm('<%= booking._id %>')"
+                  >Approve / Reject</button>
+                <% } else { %>
+                  <button class="btn btn-sm btn-secondary" disabled><%= booking.bookingStatus %></button>
+                <% } %>
               </td>
+
+
+              <!-- Booking Status Modal -->
+              <div class="modal fade" id="bookingStatusModal" tabindex="-1" aria-labelledby="bookingStatusModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <form method="POST" id="bookingStatusForm" action="/admin/bookings/"${booking_id}`>
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="bookingStatusModalLabel">Update Booking Status</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Are you sure you want to update the status of this booking? -->
+                         <div class="form-control">
+                           <select name="bookingStatus">
+                <option value = "Approve">Approve</option>   
+                <option value="Reject">Reject</option>              </select>
+                         </div>
+                         
+                         <div class="form-control">
+                          <textarea name="comment" id="comment"></textarea>
+                         </div>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="submit"  class="btn btn-success">Approve</button>
+           
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <script>
+            function setBookingStatusForm(bookingId) {
+              const form = document.getElementById("bookingStatusForm");
+              alert(bookingId,"id")
+              form.action = `/admin/bookings/${bookingId}`;
+            }
+          </script>
+
+
 
               <td><%= booking?.comment || '-' %></td>
               <td><%= booking?.statusChangeTime ? booking.statusChangeTime.toLocaleString() : '-' %></td>
